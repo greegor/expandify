@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<style>
+		.expando-btn-target {
+			width:50px;
+			height:50px;
+			padding: 2px;
+			border: 1px solid #000;
+			display: inline-block;
+		}
+		.expando-btn-target > img {
+			width:48px;
+			height:48px;
+		}
+		.expando-btn-content {
+			position: relative;
+			top: -8px; 		/*  ((50-32)/2)*-1 */
+			overflow:hidden; 
+			width:0px;
+			height:32px; 	/* otherwise images bump down durung expand */
+		}
+
+	</style>
+</head>
+<body>
+	<div class="expando-btn">
+		<span class="expando-btn-target"><img src="icons/twitter-32x32.png" alt="Twitter"></span> 
+		<span class="expando-btn-content">
+			<a href="#"><img src="icons/twitter-32x32.png" 		alt="Twitter"></a>
+			<a href="#"><img src="icons/digg-32x32.png" 		alt="Digg"></a>
+			<a href="#"><img src="icons/facebook-32x32.png" 	alt="Facebook"></a>
+			<a href="#"><img src="icons/reddit-32x32.png" 		alt="Reddit"></a>
+			<a href="#"><img src="icons/stumbleupon-32x32.png" 	alt="StumbleUpon"></a>
+			<a href="#"><img src="icons/delicious-32x32.png" 	alt="Delicious"></a>
+			<a href="#"><img src="icons/flickr-32x32.png" 		alt="Flickr"></a>
+		</span>
+	</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		$(function(){
+			var toggleWidth = "0px";
+			var toggleTimer = null;
+			function toggleMenu(ele) {
+				toggleWidth = (toggleWidth == "0px" ? "350px" : "0px");
+				$(ele).find('.expando-btn-content').fadeIn('slow', function () {
+					$(this).animate({width: toggleWidth}, 400);
+				});
+			}
+			
+			$('.expando-btn').on('click', function(e) {
+				x = e.pageX - $(this).offset().left;
+				w = $(this).find('.expando-btn-target').width();
+				if (x < w) {
+					toggleMenu($(this).parent());
+					if (toggleTimer == null) {
+						toggleTimer = setTimeout(function(self) { 
+							if (toggleWidth != "0px") {
+								toggleMenu(self);
+								toggleTimer = null;
+							}
+						}, 5000, $(this).parent());
+					}
+				}
+			})
+			
+			$('.expando-btn-content a').on('click', function() {
+				item = $(this).find('img');
+				//console.debug( $(item).attr('alt') );
+				
+				img = $(this).parent().parent().find('.expando-btn-target').find('img');
+				$(img).attr('src', $(item).attr('src') );
+				$(img).attr('alt', $(item).attr('alt') );
+				toggleMenu($(this).parent().parent());
+			})
+					
+			// init
+			$('.expando-btn-content').animate({width: toggleWidth});
+		});
+	</script>
+<body>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	
+	<!-- styles for expandify plugin -->
+	<style>
+		.expando-btn-target {
+			width:50px;	
+			height:50px;
+			padding: 2px;
+			border: 1px solid #000;
+			display: inline-block;
+		}
+		.expando-btn-target > img {
+			width:48px;
+			height:48px;
+		}
+		.expando-btn-content {
+			position: relative;
+			top: -8px; 		/*  ((50-32)/2)*-1 */
+			overflow:hidden; 
+			width:0px;
+			height:32px; 	/* otherwise images bump down during expand */
+		}
+
+	</style>
+</head>
+<body>
+	<!-- class names for expandify plugin -->
+	<div class="expando-btn">
+		<!-- init button with something in it -->
+		<span class="expando-btn-target"><img src="icons/twitter-32x32.png" alt="Twitter"></span> 
+		<!-- some menu items to show when button pressed -->
+		<span class="expando-btn-content">
+			<a href="#"><img src="icons/twitter-32x32.png" 		alt="Twitter"></a>
+			<a href="#"><img src="icons/digg-32x32.png" 		alt="Digg"></a>
+			<a href="#"><img src="icons/facebook-32x32.png" 	alt="Facebook"></a>
+			<a href="#"><img src="icons/reddit-32x32.png" 		alt="Reddit"></a>
+			<a href="#"><img src="icons/stumbleupon-32x32.png" 	alt="StumbleUpon"></a>
+			<a href="#"><img src="icons/delicious-32x32.png" 	alt="Delicious"></a>
+			<a href="#"><img src="icons/flickr-32x32.png" 		alt="Flickr"></a>
+		</span>
+	</div>
+	
+	<button onclick="test();">test</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="jquery.expandify.js"></script>
+	<script>
+		$(function(){
+			$( "div.expando-btn" ).expandify({
+				btnWidth: '50px', // these happen to be the defaults,.,
+				btnHeight: '50px',
+				expandWidth: '350px'
+			})
+		});
+		
+		function test() {
+			img = $( "div.expando-btn" ).expandify.selectedItem();
+			console.debug( $(img).attr('alt'), $(img).attr('src') );
+		}
+	</script>
+<body>
